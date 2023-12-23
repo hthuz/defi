@@ -7,7 +7,9 @@ def get_tx():
     tx = data['result']['transfers']
     txid = [x['hash'] for x in tx]
     print(len(txid))
-    print(txid[0])
+
+    with open("./tx_list.json",'w') as out_f:
+        json.dump({"tx":txid}, out_f)
     # print(txid)
 
 if __name__ == "__main__":
