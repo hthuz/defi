@@ -58,8 +58,8 @@ class ActionRecognizer:
                 # actions are from perspective of user who make swaps
                 self.output.append({"action":self.actions[signature], "contract": self.contract_call[-1],
                                     "sender": sender, "recipient": recipient,
-                                    "send_amount": amount1In if amount0In == 0 else amount0In,
-                                    "recv_amount": amount1Out if amount0Out == 0 else amount0Out})
+                                    "poolin": amount1In if amount0In == 0 else amount0In,
+                                    "poolout": amount1Out if amount0Out == 0 else amount0Out})
             case "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67":
                 sender = topic[-2]
                 recipient = topic[-3]
@@ -67,8 +67,8 @@ class ActionRecognizer:
                 [amount0, amount1, sqrtPriceX96, liquidity, tick] = [hex2dec(x,signed=True) for x in mem]
                 self.output.append({"action":self.actions[signature], "contract": self.contract_call[-1],
                                     "sender":sender, "recipient": recipient,
-                                   "send_amount": amount0 if amount0 > 0 else amount1,
-                                    "recv_amount": -amount0 if amount0 < 0 else -amount1})
+                                    "poolin": amount0 if amount0 > 0 else amount1,
+                                    "poolout": -amount0 if amount0 < 0 else -amount1})
 
             case "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef":
                 src = topic[-2]
@@ -129,15 +129,15 @@ if __name__ == "__main__":
     #
     # for i in range(0,len(txids)):
     #     print(txids[i])
-    with open("./one_tx0.json") as f:
+    # output_tx_from_block(4)
+
+    with open("./one_tx5.json") as f:
         data = json.load(f)
     txs = [data['result:']]
 
     for i in range(0,len(txs)):
-        # print(txids[i])
         recognizer = ActionRecognizer(txs[i])
         recognizer.parse()
-
 
     # print(keccak256("Swap(address,address,int256,int256,uint160,uint128,int24)"))
 
