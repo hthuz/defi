@@ -1,7 +1,7 @@
 
 import json
 import re
-from Crypto.Hash import keccak
+import os
 from tree import Tree
 
 class ActionRecognizer:
@@ -17,97 +17,58 @@ class ActionRecognizer:
             # "Transfer(address,address,uint256)" src, dst, wad
             "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": "Transfer"}
 
-        self.contract_call = ['called contract']
         self.output = []
 
     def parse(self):
         print(self.tx_hash)
         print(self.tx_trace.keys())
         tree = Tree(self.tx_trace)
-        tree.print_tree()
-        print(tree.root.value)
+        events = tree.events
+        for event in events:
+            self.__parse_event(event)
 
-        # for item in self.tx_trace:
-        #     print(item)
-        #     if(re.match(r"^LOG.*$", item['op'])):
-        #         print(f"pc:{item['pc']},op:{item['op']},depth:{item['depth']},stack:{item['stack']}")
-        #         self.__parse_log(item)
-        #         # print(self.contract_call)
-        #     if(re.match(r".*CALL$|CALLCODE", item['op'])):
-        #         # print(f"pc:{item['pc']},op:{item['op']},depth:{item['depth']},stack:{item['stack']},memory:{item['memory']}")
-        #         print(f"pc:{item['pc']},op:{item['op']},depth:{item['depth']},stack:{item['stack']}")
-        #         self.__parse_call(item)
-        #         # print(self.contract_call)
-        #     if(item['op'] == "RETURN"):
-        #         print(f"pc:{item['pc']},op:{item['op']},depth:{item['depth']}")
-        #         self.__parse_return(item)
-        #         # print(self.contract_call)
-        # for x in self.output:
-        #     print(x)
         return
-    
-    def __parse_log(self, item: dict):
-        log_num = int(item['op'][-1])
-        offset = item['stack'][-1]
-        len = item['stack'][-2]
-        topic = item['stack'][-2 - log_num:-2] # topic2,topic1,topic0
+    def __parse_event(self, event: dict):
+        topic = event['topics']
+        signature = os.popen(f"cast 4byte-event {topic[0]}").read()
+        if "Error" in signature:
+            print("No match")
+        print(signature)
 
-        signature = topic[-1]
-        mem = self.__get_mem(item['memory'], len, offset)
-        # print(item['op'], signature)
+        match topic[0]:
+            case "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef":
+                src = topic[1]
+                dst = topic[2]
+                [wad] = [hex2dec(x) for x in mem]
+                self.output.append({"action": self.actions[topic[0]], "contract": event['addr'],
+                                    "src": src, "dst": dst, "amount": wad})
 
-        match signature:
-            # Swap
+
+        match topic[0]:
+            # Swap, uniswapv2
             case "0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822":
-                sender = topic[-2]
-                recipient = topic[-3]
+                sender = topic[1]
+                recipient = topic[2]
                 [amount0In,amount1In,amount0Out,amount1Out] = [hex2dec(x) for x in mem]
                 # actions are from perspective of user who make swaps
-                self.output.append({"action":self.actions[signature], "contract": self.contract_call[-1],
+                self.output.append({"action":self.actions[topic[0]], "contract": event['addr'],
                                     "sender": sender, "recipient": recipient,
                                     "poolin": amount1In if amount0In == 0 else amount0In,
                                     "poolout": amount1Out if amount0Out == 0 else amount0Out})
+            # swap, uniswapv3
             case "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67":
-                sender = topic[-2]
-                recipient = topic[-3]
+                sender = topic[1]
+                recipient = topic[2]
                 # Note here amount0, amount1 may be negative
                 [amount0, amount1, sqrtPriceX96, liquidity, tick] = [hex2dec(x,signed=True) for x in mem]
-                self.output.append({"action":self.actions[signature], "contract": self.contract_call[-1],
+                self.output.append({"action":self.actions[topic[0]], "contract": event['addr'],
                                     "sender":sender, "recipient": recipient,
                                     "poolin": amount0 if amount0 > 0 else amount1,
                                     "poolout": -amount0 if amount0 < 0 else -amount1})
 
-            case "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef":
-                src = topic[-2]
-                dst = topic[-3]
-                [wad] = [hex2dec(x) for x in mem]
-                self.output.append({"action": self.actions[signature], "contract": self.contract_call[-1],
-                                    "src": src, "dst": dst, "amount": wad})
                 
                 
-            # case _:
 
-    def __parse_call(self, item: dict):
-        contract = item['stack'][-2]
-        self.contract_call.append(contract)
-        # print(item['op'], contract)
-        return
-
-    def __parse_return(self, item: dict):
-        self.contract_call.pop()
-        return 
-    def __get_mem(self, _mem: list, _len: str, _offset: str) -> list:
-        slot = 32 # bytes
-        offset = eval(_offset) # bytes
-        len = eval(_len) # bytes
-        mem = ''.join(_mem)
-        mem = mem[offset * 2: offset * 2 + len * 2]
-        return [mem[i : i + slot * 2] for i in range(0, len * 2, slot * 2)]
-
-def keccak256(signature: str) -> str:
-    k = keccak.new(digest_bits=256)
-    k.update(signature.encode('ASCII'))
-    return k.hexdigest()
 
 def hex2dec(hex: str, signed=False, num_bits=256) -> int:
     if(signed):

@@ -10,6 +10,7 @@ class Node:
     
 class Tree:
     def __init__(self, call: dict):
+        self.events = []
         self.root = self.trace_to_tree(call)
 
     def trace_to_tree(self, call: dict) -> Node:
@@ -24,10 +25,12 @@ class Tree:
 
         if 'logs' in call.keys():
             for log in call['logs']:
-                node.addChild(Node({'addr': log['address'],
-                                    'topics': log['topics'],
-                                    'data': log['data'],
-                                    'type': 'EVENT'}))
+                event = {'addr': log['address'],
+                        'topics': log['topics'],
+                        'data': log['data'],
+                        'type': 'EVENT'}
+                self.events.append(event)
+                node.addChild(Node(event))
         return node
     def print_tree(self):
         _print_tree(self.root,[True]*(10),0)
