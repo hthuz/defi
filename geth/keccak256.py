@@ -10,4 +10,4 @@ def keccak256(signature: str) -> str:
 if len(sys.argv) != 2:
     print("python keccak256.py signature")
     exit(1)
-print(keccak256(sys.argv[1]))
+print("0x" + keccak256(sys.argv[1]))

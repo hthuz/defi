@@ -1,0 +1,251 @@
+{
+    "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+        "raw": "Transfer(address indexed src, address indexed dst, uint wad)",
+        "sig": "Transfer(address,address,uint256)",
+        "comments": ""
+    },
+    "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+        "raw": "Approval(address indexed owner, address indexed spender, uint256 value)",
+        "sig": "Approval(address,address,uint256)",
+        "comments": "approval amount for the spender of a given owner's tokens changes"
+    },
+    "": {
+        "raw": "Mint(address minter, uint mintAmount, uint mintTokens)",
+        "sig": "Mint(address,uint256,uint256)",
+        "comments": "In uniswapv2, this event corresponds to action AddLiquidity"
+    }
+    "": {
+        "raw": "Deposit(address indexed dst, uint wad)",
+        "sig": "Deposit(address,uint256)",
+        "comments": ""
+    },
+    "": {
+        "raw": "Withdrawal(address indexed src, uint wad)",
+        "sig": "Withdrawal(address,uint256)",
+        "comments": ""
+    },
+    "0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822": {
+        "action": "Swap",
+        "protocol": "UniswapV2",
+        "raw": "Swap(address indexed sender,uint amount0In,uint amount1In,uint amount0Out,uint amount1Out,address indexed to)",
+        "sig": "Swap(address,uint256,uint256,uint256,uint256,address)",
+        "comments": "",
+        "source" : ""
+    },
+    "": {
+        "action": "RemoveLiquidity",
+        "protocol": "UniswapV2",
+        "raw": "Burn(address indexed sender, uint amount0, uint amount1, address indexed to)",
+        "sig": "Burn(address,uint256,uint256,address)",
+        "comments": "",
+        "source": ""
+    },
+    "0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67": {
+        "action": "Swap",
+        "protocol": "UniswapV3",
+        "raw": "Swap(address indexed sender,address indexed recipient,int256 amount0,int256 amount1,uint160 sqrtPriceX96,uint128 liquidity,int24 tick)",
+        "sig": "Swap(address,address,int256,int256,uint160,uint128,int24)",
+        "comments": "amount0 and amount1 are delta of token0/1 balance of pool",
+        "source": ""
+    },
+    "0x3067048beee31b25b2f1681f88dac838c8bba36af25bfb2b7cf7473a5847e35f": {
+        "action": "AddLiquidity",
+        "protocol": "UniswapV3",
+        "raw": "IncreaseLiquidity(uint256 indexed tokenId, uint128 liquidity, uint256 amount0, uint256 amount1)",
+        "sig": "IncreaseLiquidity(uint256,uint128,uint256,uint256)",
+        "comments": "",
+        "source": ""
+    },
+    "0x26f6a048ee9138f2c0ce266f322cb99228e8d619ae2bff30c67f8dcf9d2377b4": {
+        "action": "RemoveLiquidity",
+        "protocol": "UniswapV3",
+        "raw": "DecreaseLiquidity(uint256 indexed tokenId, uint128 liquidity, uint256 amount0, uint256 amount1)",
+        "sig": "DecreaseLiquidity(uint256,uint128,uint256,uint256)",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action": "TokenMint",
+        "protocol": "UniswapV3",
+        "raw": "Mint(address sender,address indexed owner,int24 indexed tickLower,int24 indexed tickUpper,uint128 amount,uint256 amount0,uint256 amount1)",
+        "sig": "Mint(address,address,int24,int24,uint128,uint256,uint256)",
+        "comments": "Emmitted when liquidity is minted for a given position",
+        "source": ""
+    },
+    "": {
+        "action": "TokenBurn",
+        "protocol": "UniswapV3",
+        "raw": "Burn(address indexed owner,int24 indexed tickLower,int24 indexed tickUpper,uint128 amount,uint256 amount0,uint256 amount1)",
+        "sig": "Burn(address,int24,int24,uint128,uint256,uint256)",
+        "comments": "Emitted when a position's liquidity is removed",
+        "source": ""
+    },
+    "": {
+        "action": "Swap",
+        "protocol": "UniswapV3",
+        "raw": "Flash(address indexed sender,address indexed recipient,uint256 amount0,uint256 amount1,uint256 paid0,uint256 paid1)",
+        "sig": "Flash(address,address,uint256,uint256,uint256,uint256)",
+        "comments": "Emitted by the pool for any flashes of token0/token1",
+        "source": ""
+    },
+    "": {
+        "action": "",
+        "protocol": "Compound",
+        "raw": "Redeem(address redeemer, uint redeemAmount, uint redeemTokens)",
+        "sig": "Redeem(address,uint256,uint256)",
+        "comments": "Event emitted when tokens are redeemed",
+        "source": ""
+    },
+    "": {
+        "action": "Borrow",
+        "protocol": "Compound",
+        "raw": "Borrow(address borrower, uint borrowAmount, uint accountBorrows, uint totalBorrows)",
+        "sig": "Borrow(address,uint256,uint256,uint256)",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action": "Repay",
+        "protocol": "Compound",
+        "raw": "RepayBorrow(address payer, address borrower, uint repayAmount, uint accountBorrows, uint totalBorrows)",
+        "sig": "RepayBorrow(address,address,uint256,uint256,uint256)",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action": "Liquidation",
+        "protocol": "Compound",
+        "raw": "LiquidateBorrow(address liquidator, address borrower, uint repayAmount, address cTokenCollateral, uint seizeTokens)",
+        "sig": "LiquidateBorrow(address,address,uint256,address,uint256)",
+        "comments": "Event emitted when a borrow is liquidated",
+        "source": ""
+    },
+    "": {
+        "action": "TokenBurn",
+        "protocol": "AaveV2",
+        "raw": "Burn(address indexed from, address indexed target, uint256 value, uint256 index)",
+        "sig": "Burn(address,address,uint256,uint256)",
+        "comments": "from: The owner of the aTokens, getting them burned, target: The address that will receive the underlying, value: The amount being burned, index: The new liquidity index of the reserve",
+        "source": ""
+    },
+    "": {
+        "action": "Transfer",
+        "protocol": "AaveV2",
+        "raw": "BalanceTransfer(address indexed from, address indexed to, uint256 value, uint256 index)",
+        "sig": "BalanceTransfer(address,address,uint256,uint256)",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action": "Deposit",
+        "protocol": "AaveV2",
+        "raw": "Deposit(address indexed reserve,address user,address indexed onBehalfOf,uint256 amount,uint16 indexed referral)",
+        "sig": "Deposit(address,address,address,uint256,uint16",
+        "comments": "",
+        "source": "https://github.com/aave/protocol-v2/blob/ce53c4a8c8620125063168620eba0a8a92854eb8/contracts/interfaces/ILendingPool.sol"
+    },
+    "": {
+        "action": "Withdraw",
+        "protocol": "AaveV2",
+        "raw": "Withdraw(address indexed reserve, address indexed user, address indexed to, uint256 amount)",
+        "sig": "Withdraw(address,address,address,uint256)",
+        "comments": "",
+        "source": "https://github.com/aave/protocol-v2/blob/ce53c4a8c8620125063168620eba0a8a92854eb8/contracts/interfaces/ILendingPool.sol"
+    },
+    "": {
+        "action": "Borrow",
+        "protocol": "AaveV2",
+        "raw": "Borrow(address indexed reserve,address user,address indexed onBehalfOf,uint256 amount,uint256 borrowRateMode,uint256 borrowRate,uint16 indexed referral)",
+        "sig": "Borrow(address,address,address,uint256,uint256,uint256,uint16)",
+        "comments": "", 
+        "source": "https://github.com/aave/protocol-v2/blob/ce53c4a8c8620125063168620eba0a8a92854eb8/contracts/interfaces/ILendingPool.sol"
+    },
+    "": {
+        "action": "Repay",
+        "protocol": "AaveV2",
+        "raw": "Repay(address indexed reserve,address indexed user,address indexed repayer,uint256 amount)",
+        "comments": "",
+        "source": "https://github.com/aave/protocol-v2/blob/ce53c4a8c8620125063168620eba0a8a92854eb8/contracts/interfaces/ILendingPool.sol"
+
+    },
+    "": {
+        "action":"Swap",
+        "protocol": "AaveV2",
+        "raw": "Swap(address indexed reserve, address indexed user, uint256 rateMode)",
+        "sig": "Swap(address,address,uint256)",
+        "comments": "",
+        "source": "https://github.com/aave/protocol-v2/blob/ce53c4a8c8620125063168620eba0a8a92854eb8/contracts/interfaces/ILendingPool.sol"
+    },
+    "": {
+        "action":"Flashloan",
+        "protocol": "AaveV2",
+        "raw": "FlashLoan(address indexed target,address indexed initiator,address indexed asset,uint256 amount,uint256 premium,uint16 referralCode)",
+        "sig": "FlashLoan(address,address,address,uint256,uint256,uint16)",
+        "comments": "",
+        "source": "https://github.com/aave/protocol-v2/blob/ce53c4a8c8620125063168620eba0a8a92854eb8/contracts/interfaces/ILendingPool.sol"
+    },
+    "": {
+        "action":"Liquidation",
+        "protocol": "AaveV2",
+        "raw": "LiquidationCall(address indexed collateralAsset,address indexed debtAsset,address indexed user,uint256 debtToCover,uint256 liquidatedCollateralAmount,address liquidator,bool receiveAToken)",
+        "sig": "LiquidationCall(address,address,address,uint256,uint256,address,bool)",
+        "comments": "",
+        "source": "https://github.com/aave/protocol-v2/blob/ce53c4a8c8620125063168620eba0a8a92854eb8/contracts/interfaces/ILendingPool.sol"
+    },
+    "": {
+        "action":"Borrow",
+        "protocol": "AaveV3",
+        "raw": "Borrow(address indexed reserve,address user,address indexed onBehalfOf,uint256 amount,DataTypes.InterestRateMode interestRateMode,uint256 borrowRate,uint16 indexed referralCode)",
+        "sig": "Borrow(address,address,address,uint256,DataTypes.InterestRateMode,uint256,uint16)",
+        "comments": "",
+        "source": "https://github.com/aave/aave-v3-core/blob/6070e82d962d9b12835c88e68210d0e63f08d035/contracts/protocol/libraries/logic/BorrowLogic.sol"
+    },
+    "": {
+        "action":"Repay",
+        "protocol": "AaveV3",
+        "raw": "Repay(address indexed reserve,address indexed user,address indexed repayer,uint256 amount,bool useATokens)",
+        "sig": "Repay(address,address,address,uint256,bool)",
+        "comments": "",
+        "source": "https://github.com/aave/aave-v3-core/blob/6070e82d962d9b12835c88e68210d0e63f08d035/contracts/protocol/libraries/logic/BorrowLogic.sol"
+    },
+    "": {
+        "action":"",
+        "protocol": "",
+        "raw": "",
+        "sig": "",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action":"",
+        "protocol": "",
+        "raw": "",
+        "sig": "",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action":"",
+        "protocol": "",
+        "raw": "",
+        "sig": "",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action":"",
+        "protocol": "",
+        "raw": "",
+        "sig": "",
+        "comments": "",
+        "source": ""
+    },
+    "": {
+        "action":"",
+        "protocol": "",
+        "raw": "",
+        "sig": "",
+        "comments": "",
+        "source": ""
+    },
+}
